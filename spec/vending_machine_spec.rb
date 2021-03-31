@@ -5,13 +5,12 @@ RSpec.describe VendingMachine do
   let(:mars) { double("mars", name: "mars", price: 65, take_item: 0) }
   let(:twix) { double("twix", name: "twix", price: 75, take_item: 0) }
   let(:products) { [snickers, mars, twix] }
-  let(:cash_holder) { instance_double("cash_holder", current_value: 0) }
+  let(:cash_holder) { instance_double("cash_holder") }
   let(:vending_machine) { VendingMachine.new(products, cash_holder) }
 
   describe 'select product' do
     before do
       allow(cash_holder).to receive(:store_funds)
-      # allow(snickers).to receive(:take_item)
     end
 
     context 'with enough funds' do
