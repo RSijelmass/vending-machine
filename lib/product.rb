@@ -12,4 +12,8 @@ class Product
     raise "Cannot take item; product is empty." unless @amount > 0
     @amount -= 1
   end
+
+  def replenish
+    @amount = MAX_CAPACITY
+  end
 end

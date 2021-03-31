@@ -27,4 +27,19 @@ RSpec.describe Product do
       expect { empty_product.take_item }.to raise_error "Cannot take item; product is empty."
     end
   end
+
+  describe '#replenish' do
+    it 'fills up a product that is < max capacity to max capacity' do
+      amount_below_max = Product::MAX_CAPACITY - 1
+      product_below_max = Product.new(name, price, amount_below_max)
+      expect{ product_below_max.replenish }
+        .to change { product_below_max.amount }
+        .to Product::MAX_CAPACITY
+    end
+    it 'keeps a product at max capacity to stay there' do
+      product_at_max = Product.new(name, price)
+      expect{ product_at_max.replenish }
+        .to_not change { product_at_max.amount }
+    end
+  end
 end

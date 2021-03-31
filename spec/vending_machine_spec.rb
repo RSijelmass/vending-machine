@@ -8,7 +8,7 @@ RSpec.describe VendingMachine do
   let(:cash_holder) { instance_double("cash_holder") }
   let(:vending_machine) { VendingMachine.new(products, cash_holder) }
 
-  describe 'select product' do
+  describe '#select_product' do
     before do
       allow(cash_holder).to receive(:store_funds)
     end
@@ -33,6 +33,13 @@ RSpec.describe VendingMachine do
         expect{ vending_machine.select_product("some-other-snack", 100) }
           .to raise_exception("This item does not exist.")
       end
+    end
+  end
+
+  describe '#stock_product' do
+    it 'delegates to a product to be refilled' do
+      expect(snickers).to receive(:replenish)
+      vending_machine.stock_product("snickers")
     end
   end
 end
