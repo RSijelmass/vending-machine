@@ -11,6 +11,7 @@ class VendingMachine
     raise "Not enough money provided." unless money_input >= product.price
 
     @cash_holder.store_funds(money_input)
+    product.take_item
     product
   end
 end
