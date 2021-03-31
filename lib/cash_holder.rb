@@ -1,29 +1,39 @@
 class CashHolder
   COIN_TYPES = [200, 100, 50, 20, 10, 5, 2, 1]
-  attr_reader :current_value
+  DEFAULT_COINS_INPUT = { 200 => 5, 100 => 5, 50 => 5, 20 => 5, 10 => 5, 5 => 5, 2 => 5, 1 => 5 }
+  attr_reader :coins_wallet
 
-  def initialize(current_value=0)
-    @current_value = current_value
+  def initialize(coins_wallet=DEFAULT_COINS_INPUT)
+    @coins_wallet = coins_wallet
   end
 
-  def store_funds(given_funds, price_of_item)
-    raise "No negative funds allowed." if given_funds.negative?
-    raise "Given funds cannot be less than the item price." if price_of_item > given_funds
+  def store_funds(given_coins, price_of_item)
+    raise "Some coins provided are not allowed." if given_coins.any?(&:negative?)
 
-    @current_value += price_of_item
+    sum_coins = given_coins.inject(0, :+)
+    raise "Given funds cannot be less than the item price." if price_of_item > sum_coins
 
-    return_change(given_funds, price_of_item)
+    add_coins_to_wallet(given_coins)
+
+    total_to_return = sum_coins - price_of_item
+    return_change(given_coins, total_to_return)
   end
 
   private
 
-  def return_change(given_funds, price_of_item)
-    total_change = given_funds - price_of_item
+  def add_coins_to_wallet(given_coins)
+    given_coins.each do |coin|
+      @coins_wallet[coin] ? @coins_wallet[coin] += 1 : @coins_wallet[coin] = 1
+    end
+  end
+
+  def return_change(given_funds, total_to_return)
     change_list = []
 
     for coin_type in COIN_TYPES
-      while total_change >= coin_type
-        total_change -= coin_type
+      while @coins_wallet[coin_type] && @coins_wallet[coin_type] > 0 && total_to_return >= coin_type
+        total_to_return -= coin_type
+        @coins_wallet[coin_type]-= 1
         change_list << coin_type
       end
     end

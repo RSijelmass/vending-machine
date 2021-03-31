@@ -1,38 +1,38 @@
 require 'cash_holder'
 
 RSpec.describe CashHolder do
-  let(:input_value) { 500 }
-  let(:cash_holder) { CashHolder.new(input_value) }
+  let(:input_coins) { { 200 => 2, 100 => 2, 20 => 5, 10 => 5 } }
+  let(:cash_holder) { CashHolder.new(input_coins) }
   describe 'initialise cash holder' do
     it 'can be intialised with an input value' do
-      new_input_value = 100
-      cash_holder = CashHolder.new(new_input_value)
-      expect(cash_holder.current_value).to eq new_input_value
+      expect(cash_holder.coins_wallet).to eq input_coins
     end
     it 'can be initialised with no input value' do
       cash_holder = CashHolder.new
-      expect(cash_holder.current_value).to eq 0
+      expect(cash_holder.coins_wallet).to eq CashHolder::DEFAULT_COINS_INPUT
     end
   end
 
   describe '#store_funds' do
-    let(:added_funds_over_price) { 58 }
-    let(:added_funds_under_price) { 10 }
-    let(:added_funds_negative) { -50 }
-    let(:price_of_item) { 20 }
-    let(:expected_change) { [20, 10, 5, 2, 1] }
+    let(:given_funds_over_price) { [20, 10, 10, 10, 5, 5] }
+    let(:given_funds_under_price) { [5, 5] }
+    let(:given_funds_negative) { [-10] }
+    let(:given_funds_non_existent) { [35] }
+    let(:price_of_item) { 25 }
+    let(:expected_change) { [20, 10, 5] }
     it 'updates the current_value with the price of the item' do
-      expect { cash_holder.store_funds(added_funds_over_price, price_of_item) }
-        .to change { cash_holder.current_value }.by(price_of_item)
+      expected_increase_coins = []
+      expect { cash_holder.store_funds(given_funds_over_price, price_of_item) }
+        .to change { cash_holder.coins_wallet[10] }.by(2)
     end
     it 'does not allow negative funds (taking funds out)' do
-      expect { cash_holder.store_funds(added_funds_negative, price_of_item) }.to raise_error "No negative funds allowed."
+      expect { cash_holder.store_funds(given_funds_negative, price_of_item) }.to raise_error "Some coins provided are not allowed."
     end
     it 'does not allow funds to be lower than the price of the item' do
-      expect { cash_holder.store_funds(added_funds_under_price, price_of_item) }.to raise_error "Given funds cannot be less than the item price."
+      expect { cash_holder.store_funds(given_funds_under_price, price_of_item) }.to raise_error "Given funds cannot be less than the item price."
     end
     it 'returns any change if the added value is greater than the price of the item' do
-      expect(cash_holder.store_funds(added_funds_over_price, price_of_item)).to eq expected_change
+      expect(cash_holder.store_funds(given_funds_over_price, price_of_item)).to eq expected_change
     end
   end
 end
