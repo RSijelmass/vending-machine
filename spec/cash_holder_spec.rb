@@ -45,4 +45,23 @@ RSpec.describe CashHolder do
       end
     end
   end
+
+  describe '#top_up_coins' do
+    context 'with only accepted coins' do
+      let(:accepted_coins) { {200 => 10, 100 => 10, 20 => 5} }
+      it 'tops up the amount of coins with all coins given' do
+        expect{ cash_holder.top_up_coins(accepted_coins) }
+        .to change { cash_holder.coins_wallet[200] }.by(10)
+        .and change { cash_holder.coins_wallet[100] }.by(10)
+        .and change { cash_holder.coins_wallet[20] }.by(5)
+      end
+    end
+    context 'with non-accepted coins' do
+      let(:non_accepted_coins) { {200 => 10, 999 => 10} }
+      it 'raises an exception some coins are not allowed' do
+        expect{ cash_holder.top_up_coins(non_accepted_coins) }
+          .to raise_error "Not all coins are accepted. No coins have been topped up."
+      end
+    end
+  end
 end

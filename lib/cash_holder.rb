@@ -19,6 +19,11 @@ class CashHolder
     return_change(given_coins, total_to_return)
   end
 
+  def top_up_coins(coins_to_add)
+    raise "Not all coins are accepted. No coins have been topped up." unless coins_to_add.all? { |coin, amount| COIN_TYPES.include? coin }
+    @coins_wallet.merge!(coins_to_add) { |k, wallet, to_add| wallet + to_add }
+  end
+
   private
 
   def add_coins_to_wallet(given_coins)
