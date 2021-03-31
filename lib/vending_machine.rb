@@ -9,7 +9,7 @@ class VendingMachine
 
     raise "This item does not exist." unless product
 
-    @cash_holder.store_funds(money_input)
+    @cash_holder.store_funds(money_input, product.price)
 
     product.take_item
     product

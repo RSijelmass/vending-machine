@@ -20,7 +20,7 @@ RSpec.describe VendingMachine do
       end
       it 'calls to CashHolder to #store_funds' do
         funds_to_store = 100
-        expect(cash_holder).to receive(:store_funds).with(funds_to_store)
+        expect(cash_holder).to receive(:store_funds).with(funds_to_store, snickers.price)
         vending_machine.select_product("snickers", funds_to_store)
       end
       it 'calls to product to take an item' do

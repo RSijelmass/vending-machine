@@ -16,11 +16,11 @@ RSpec.describe CashHolder do
   end
 
   describe '#store_funds' do
-    let(:added_funds_over_price) { 50 }
+    let(:added_funds_over_price) { 58 }
     let(:added_funds_under_price) { 10 }
     let(:added_funds_negative) { -50 }
     let(:price_of_item) { 20 }
-    let(:expected_change) { 30 }
+    let(:expected_change) { [20, 10, 5, 2, 1] }
     it 'updates the current_value with the price of the item' do
       expect { cash_holder.store_funds(added_funds_over_price, price_of_item) }
         .to change { cash_holder.current_value }.by(price_of_item)
