@@ -34,5 +34,15 @@ RSpec.describe CashHolder do
     it 'returns any change if the added value is greater than the price of the item' do
       expect(cash_holder.store_funds(given_funds_over_price, price_of_item)).to eq expected_change
     end
+
+    context 'not enough change to return' do
+      let(:cash_holder_little_change) { CashHolder.new({200 => 1, 10 => 1, 2 => 3, 1 => 1}) }
+      let(:given_funds) { [100] }
+      let(:expected_change) { [10, 2, 2, 2, 1] }
+
+      it 'returns the closest amount change available (rounded down)' do
+        expect(cash_holder_little_change.store_funds(given_funds, price_of_item)).to eq expected_change
+      end
+    end
   end
 end
