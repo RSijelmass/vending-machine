@@ -16,7 +16,7 @@ RSpec.describe VendingMachine do
 
     context 'with enough funds' do
       it 'returns a product' do
-        expect(vending_machine.select_product("snickers", 100)).to eq snickers
+        expect(vending_machine.select_product("snickers", 100)).to include(product: snickers)
       end
       it 'calls to CashHolder to #store_funds' do
         funds_to_store = 100
