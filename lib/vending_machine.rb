@@ -8,9 +8,9 @@ class VendingMachine
     product = @products.detect { |product| product.name == product_name }
 
     raise "This item does not exist." unless product
-    raise "Not enough money provided." unless money_input >= product.price
 
     @cash_holder.store_funds(money_input)
+
     product.take_item
     product
   end

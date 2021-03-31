@@ -29,13 +29,6 @@ RSpec.describe VendingMachine do
       end
     end
 
-    context 'with non-acceptable funds' do
-      it 'throws an exception if I do not give enough money' do
-        expect{ vending_machine.select_product("snickers", 5) }
-          .to raise_exception("Not enough money provided.")
-      end
-    end
-
     context 'with a non-existent product' do
       it 'throws an exception' do
         expect{ vending_machine.select_product("some-other-snack", 100) }

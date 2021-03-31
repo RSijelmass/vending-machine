@@ -16,12 +16,23 @@ RSpec.describe CashHolder do
   end
 
   describe '#store_funds' do
-    it 'updates the current_value with the input given' do
-      added_value = 50
-      expect { cash_holder.store_funds(added_value) }.to change { cash_holder.current_value }.by(added_value)
+    let(:added_funds_over_price) { 50 }
+    let(:added_funds_under_price) { 10 }
+    let(:added_funds_negative) { -50 }
+    let(:price_of_item) { 20 }
+    let(:expected_change) { 30 }
+    it 'updates the current_value with the price of the item' do
+      expect { cash_holder.store_funds(added_funds_over_price, price_of_item) }
+        .to change { cash_holder.current_value }.by(price_of_item)
     end
     it 'does not allow negative funds (taking funds out)' do
-      expect { cash_holder.store_funds(-50) }.to raise_error "No negative funds allowed."
+      expect { cash_holder.store_funds(added_funds_negative, price_of_item) }.to raise_error "No negative funds allowed."
+    end
+    it 'does not allow funds to be lower than the price of the item' do
+      expect { cash_holder.store_funds(added_funds_under_price, price_of_item) }.to raise_error "Given funds cannot be less than the item price."
+    end
+    it 'returns any change if the added value is greater than the price of the item' do
+      expect(cash_holder.store_funds(added_funds_over_price, price_of_item)).to eq expected_change
     end
   end
 end
