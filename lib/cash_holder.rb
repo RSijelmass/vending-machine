@@ -7,6 +7,14 @@ class CashHolder
     @coins_wallet = coins_wallet
   end
 
+  def get_total_value
+    total_value = 0
+    @coins_wallet.each do |coin, amount|
+      total_value += coin * amount
+    end
+    total_value
+  end
+
   def store_funds(given_coins, price_of_item)
     sum_coins = given_coins.inject(0, :+)
     assert_validity_storing_funds(given_coins, price_of_item, sum_coins)

@@ -47,7 +47,7 @@ $ irb
     - select an item: `vending_machine.select_item({product_name}, {list of coins})`.
 
   - As a vending machine holder, you can do the following methods:
-    - see the balance of the cash holder: `cash_holder.get_total_value` (TODO to implement still)
+    - see the balance of the cash holder: `cash_holder.get_total_value`
     - refill the change that is in the cash holder: `cash_holder.top_up_coins({hash_of_coins})`.
     The hash of coins can look something like `{200 => 10, 100=> 5, 20 => 5}`
     - refill the stock of a certain product: `vending_machine.stock_product({product_name})`

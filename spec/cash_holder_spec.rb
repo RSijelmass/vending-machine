@@ -46,6 +46,17 @@ RSpec.describe CashHolder do
     end
   end
 
+  describe '#get_total_value' do
+    it 'shows the total value of a cash holder that contains coins' do
+      expect(cash_holder.get_total_value).to eq 750
+    end
+    it 'shows the total value of a cash holder that contains no coins' do
+      empty_coins = {}
+      empty_cash_holder = CashHolder.new(empty_coins)
+      expect(empty_cash_holder.get_total_value).to eq 0
+    end
+  end
+
   describe '#top_up_coins' do
     context 'with only accepted coins' do
       let(:accepted_coins) { {200 => 10, 100 => 10, 20 => 5} }
