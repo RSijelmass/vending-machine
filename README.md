@@ -35,7 +35,7 @@ $ irb
   ```
 
   This ensures the objects are available to use. Here you can:
-  - create products: `{product_name} = Product.new({product_name}, {product_price})`
+  - create products: `{product_variable} = Product.new({product_name}, {product_price})`. The `{product_name}` is a string and the `{product_price}` is an integer in pence.
   - create a cash holder: `cash_holder = CashHolder.new`.
   Creating a cash holder outside of the vending machine allows you to interact with it from the outside, like checking balance.
   - create a new vending machine: `vending_machine = VendingMachine.new({list_of_products}, {cash_holder})`
@@ -44,10 +44,11 @@ $ irb
   _NOTE: only coins `1, 2, 5, 10, 20, 50, 100, 200` are accepted and are all displayed in pence._
 
   - As a vending machine user, you can do the following methods:
-    - select an item: `vending_machine.select_item({product_name}, {list of coins})`.
+    - select an item: `vending_machine.select_product({product_name}, {list of coins})`.
 
   - As a vending machine holder, you can do the following methods:
     - see the balance of the cash holder: `cash_holder.get_total_value`
+    - see the coins within the cash holder: `cash_holder.coins_wallet`
     - refill the change that is in the cash holder: `cash_holder.top_up_coins({hash_of_coins})`.
     The hash of coins can look something like `{200 => 10, 100=> 5, 20 => 5}`
     - refill the stock of a certain product: `vending_machine.stock_product({product_name})`
@@ -121,3 +122,12 @@ Example: $ rspec spec/vending_machine_spec.rb:20
 - There are some errors raised and statements printed - I have kept them as is, but going forward I would like to encapsulate these in a `Printer` or a `Display` object. No other object then has to worry about how to show something to the user. This would also make it easier if we decide to move away from printing to STDOUT to somewhere else; we'd only need to update this `Display` object instead of making changes throughout the codebase.
 - The app currently has no UI or interface to interact with. One of the first things I'd like to do, is either create a frontend for it or at least some interaction from the command line to make it more user friendly.
 - Currently there is no distinction between users. A customer of the vending machine can now technically also top up the vending machine and see its balance, which we may want to restrict to special users that are vending machine holders. A way to expand this is to create a special User object where only when granted certain rights it can access certain behaviour.
+
+## TimeStamping
+
+Total amount of time spent on exercise: **~3 hours and 15 minutes**
+
+1. day 1: Familiarising myself with problem space / writing out user stories: **~15 minutes**
+2. day 1: first setup of version 1: **~30 minutes**
+3. day 2: completing version 1, implementing version 2 and 3: **~2 hours**
+4. day 3: completing version 3, implementing version 4, final cleanup and update of README: **~30 minutes**
