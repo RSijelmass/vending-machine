@@ -8,11 +8,9 @@ class CashHolder
   end
 
   def get_total_value
-    total_value = 0
-    @coins_wallet.each do |coin, amount|
+    @coins_wallet.inject(0) do |total_value, (coin, amount)|
       total_value += coin * amount
     end
-    total_value
   end
 
   def store_funds(given_coins, price_of_item)
