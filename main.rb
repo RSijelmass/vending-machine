@@ -13,6 +13,3 @@ cash_holder = CashHolder.new
 
 # Initialising vending machine
 vending_machine = VendingMachine.new(inventory, cash_holder)
-
-product = vending_machine.select_product("twix", [50, 50])
-product = vending_machine.select_product("snickers", [200])
