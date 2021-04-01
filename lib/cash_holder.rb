@@ -8,10 +8,8 @@ class CashHolder
   end
 
   def store_funds(given_coins, price_of_item)
-    raise "Some coins provided are not allowed." if given_coins.any?(&:negative?)
-
     sum_coins = given_coins.inject(0, :+)
-    raise "Given funds cannot be less than the item price." if price_of_item > sum_coins
+    assert_validity_storing_funds(given_coins, price_of_item, sum_coins)
 
     add_coins_to_wallet(given_coins)
 
@@ -32,6 +30,11 @@ class CashHolder
     end
   end
 
+  def assert_validity_storing_funds(given_coins, price_of_item, sum_coins)
+    raise "Some coins provided are not allowed." if given_coins.any?(&:negative?)
+    raise "Given funds cannot be less than the item price." if price_of_item > sum_coins
+  end
+
   def return_change(given_funds, total_to_return)
     change_list = []
 
@@ -43,6 +46,12 @@ class CashHolder
       end
     end
 
+    print_lack_of_change(total_to_return) if total_to_return > 0
+
     change_list
+  end
+
+  def print_lack_of_change(total_to_return)
+    puts "Could not return full amount - #{total_to_return}p has not been returned due to missing change."
   end
 end
